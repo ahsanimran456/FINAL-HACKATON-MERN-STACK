@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.Main{
+    width: 100%;
+    height: 100vh;
+}
+.login,.signup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../assests/images/logingif.gif);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    padding: 25px 40px;
+}
+.signup{
+    background-image: url(../../assests/images/signup.gif) !important;
+
+}
+.row{
+    width: 100% !important; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loginform,.signupform{
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    padding: 20px 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
