@@ -19,22 +19,22 @@ function Signup(req, res) {
     const body = JSON.parse(req.body.myDetails)
     console.log("final", body)
 
-    console.log("req.files: ", req.files);
-    console.log("uploaded file name: ", req.files[0].originalname);
-    console.log("file type: ", req.files[0].mimetype);
-    console.log("file name in server folders: ", req.files[0].filename);
-    console.log("file path in server folders: ", req.files[0].path);
+    // console.log("req.files: ", req.files);
+    // console.log("uploaded file name: ", req.files[0].originalname);
+    // console.log("file type: ", req.files[0].mimetype);
+    // console.log("file name in server folders: ", req.files[0].filename);
+    // console.log("file path in server folders: ", req.files[0].path); 
     let passwordValidation = /^[a-zA-Z0-9]{6,16}$/;
     let namevalid = /^[A-Za-z .]{3,40}$/
     // let eamilvalid = /^([\w]*[\w\.]*(?!\.)@gmail.com)/
-    let phonevalid = /^[0-9]{11}$/
+    // let phonevalid = /^[0-9]{11}$/      blow line  && (phonevalid.test(body.phone)) &&
 
-    if ((namevalid.test(body.fullname)) && (body.email) && (phonevalid.test(body.phone)) && (passwordValidation.test(body.password))) {
+    if ((namevalid.test(body.fullname)) && (body.email) && (passwordValidation.test(body.password)&& req.files.length !=0 )) {
         Users.findOne({ email: body.email }, async (err, user) => {
             if (!err) {
                 // ........when user exits .....//
                 if (user) {
-                    res.send({ message: "Email is already in use" })
+                    res.send({message:"Email is already in use" })
                 }
                 // ........when user does not exits .....//
                 else {
@@ -84,7 +84,7 @@ function Signup(req, res) {
                                                     ProfileUrl: urlData[0]
 
                                                 })
-                                                res.status(200).send({ message: 'Added User Successfully', data: adduserDb,Token:Token})
+                                                res.status(200).send({ message:'Added User Successfully', data: adduserDb,Token:Token})
                                             }
                                             catch (err) {
                                                 // console.log(err);
@@ -106,7 +106,7 @@ function Signup(req, res) {
         })
 
     } else {
-        res.send({ Message: "Required parameter is missing" })
+        res.send({ Message:"Required parameter is missing"})
     }
 }
 

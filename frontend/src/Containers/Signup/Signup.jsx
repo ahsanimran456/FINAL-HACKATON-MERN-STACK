@@ -2,16 +2,16 @@ import axios from "axios";
 import { useState } from "react";
 import { Button, Checkbox, Form, Input } from 'antd';
 import './Login.css'
-
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Signup() {
-    const [Name, setName] = useState();
-    const [Email, setEmail] = useState();
-    const [phonenumber, setphonenumber] = useState();
-    const [password, setpassword] = useState();
-    const [image, setimage] = useState();
-    const [errormessage, seterrormessage] = useState("");
-    const [input, setinput] = useState();
+    // const [Name, setName] = useState();
+    // const [Email, setEmail] = useState();
+    // const [phonenumber, setphonenumber] = useState();
+    // const [password, setpassword] = useState();
+    // const [image, setimage] = useState();
+    // const [errormessage, seterrormessage] = useState("");
+    // const [input, setinput] = useState();
     const [togglestate, settogglestate] = useState(true);
 
     const onFinish = (values) => {
@@ -25,13 +25,14 @@ function Signup() {
     const Createuser = (values) => {
 
         const picture = document.getElementById("imgae")
-        const url = URL.createObjectURL(picture.files[0])
-        setimage(url)
+        // const url = URL.createObjectURL(picture.files[0])
+        // setimage(url)
+        if(values.password === values.ConfirmPass){
         const userdetails = {
-            fullname: Name,
-            email: Email,
-            phone: phonenumber,
-            password: password
+            fullname: values.UserName.trim(),
+            email: values.Email.trim(),
+            password: values.password.trim()
+            // phone: phonenumber,
         }
 
         let formData = new FormData();
@@ -47,47 +48,65 @@ function Signup() {
         })
             .then(res => {
                 console.log('upload Success', res);
+                if (res.data.message == "Added User Successfully") {
+                    toast.success("SignIn Successfully !")
+                    values.UserName = ""
+                    values.Email = ""
+                    values.password = ''
+                }
+                else if (res.data.message== 'Email is already in use') {
+                    toast.warn(`Email is already in use`)
+                    return
+                } else if (res.data.Message == 'Required parameter is missing') {
+                    toast.error(`Required parameter in missing`)
+                    return
+                }
             })
             .catch(err => {
                 console.log(err);
+                toast.error("Something went wrong")
             })
+        }else{
+            toast.warn("password doesn't match")
 
-
-
-
-    }
-
-
-    const sendimg = () => {
-        const picture = document.getElementById("imgae")
-        const url = URL.createObjectURL(picture.files[0])
-        setimage(url)
-        const userdetails = {
-            fullname: Name,
-            email: Email,
-            phone: phonenumber,
-            password: password
         }
 
-        let formData = new FormData();
-        formData.append("UserProfile", picture.files[0]);
-        formData.append("myDetails",
-            JSON.stringify(userdetails));
-        axios({
-            method: 'post',
-            url: "http://localhost:50552/signup",
-            data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' },
-            withCredentials: true
-        })
-            .then(res => {
-                console.log('upload Success', res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+
+
 
     }
+
+
+    // const sendimg = () => {
+    //     const picture = document.getElementById("imgae")
+    //     const url = URL.createObjectURL(picture.files[0])
+    //     setimage(url)
+    //     const userdetails = {
+    //         fullname: Name,
+    //         email: Email,
+    //         phone: phonenumber,
+    //         password: password
+    //     }
+
+    //     let formData = new FormData();
+    //     formData.append("UserProfile", picture.files[0]);
+    //     formData.append("myDetails",
+    //         JSON.stringify(userdetails));
+    //     axios({
+    //         method: 'post',
+    //         url: "http://localhost:50552/signup",
+    //         data: formData,
+    //         headers: { 'Content-Type': 'multipart/form-data' },
+    //         withCredentials: true
+    //     })
+    //         .then(res => {
+    //             console.log('upload Success', res);
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //         })
+
+    // }
 
     const toggle = () => {
         settogglestate(!togglestate)
@@ -106,6 +125,10 @@ function Signup() {
         //     <img src={image} alt="" width={300} height={300} />
         // </div>
         <div className="Main">
+            <ToastContainer
+                position="bottom-right"
+                theme="colored"
+                autoClose={3000} />
             {
                 togglestate ?
                     <div className="login">
@@ -163,7 +186,7 @@ function Signup() {
                                             }}
                                         >
                                             <Button type="primary" htmlType="submit" style={{ backgroundColor: "#B0A4FD" }}>
-                                                Login {console.log(setinput)}
+                                                Login 
                                             </Button>
                                         </Form.Item>
                                     </Form>
@@ -248,7 +271,7 @@ function Signup() {
                                         </Form.Item>
                                         <Form.Item
                                             label="Confirm Pass"
-                                            name="Confirm Pass"
+                                            name="ConfirmPass"
                                             rules={[
                                                 {
                                                     required: true,
