@@ -5,6 +5,8 @@ import './Login.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Blocks } from 'react-loader-spinner'
+
+
 function Signup() {
     // const [Name, setName] = useState();
     // const [Email, setEmail] = useState();
@@ -41,8 +43,8 @@ function Signup() {
                     values.password = ''
                 }
                 setloader(false)
-                // localStorage.setItem("Token", res.data.Token)
-                // window.location.reload();
+                localStorage.setItem("Token", res.data.Token)
+                window.location.reload();
             })
             .catch((err) => {
                 setloader(false)
@@ -78,6 +80,8 @@ function Signup() {
                     console.log('upload Success', res);
                     if (res.data.message == "Added User Successfully") {
                         toast.success("SignIn Successfully !")
+                        localStorage.setItem("Token", res.data.Token)
+                        window.location.reload();
                         values.UserName = ""
                         values.Email = ""
                         values.password = ''
