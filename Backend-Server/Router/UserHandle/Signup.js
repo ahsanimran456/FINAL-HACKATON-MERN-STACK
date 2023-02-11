@@ -8,11 +8,12 @@ import cookieParser from 'cookie-parser'
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 const SECRET_KEY = "secret"
-import { Users } from "../Models/Models";
+import { Users } from "../Models/Models.js";
 
 function Signup(req, res) {
     console.log("req.body: ", JSON.parse(req.body.myDetails));
-    const body = req.body
+    const reArrange = JSON.parse(req.body.UserDetails)
+    const body = req.body // reArrange
     console.log(body)
     console.log("req.files: ", req.files);
     console.log("uploaded file name: ", req.files[0].originalname);
@@ -91,9 +92,10 @@ function Signup(req, res) {
                                 })
                             } else {
                                 console.log("err: ", err)
-                                res.status(500).send();
+                                res.status(500).send({ message: err });
                             }
-                        });
+                        }
+                    );
                 }
             }
         })
@@ -101,8 +103,6 @@ function Signup(req, res) {
     } else {
         res.send({ Message: "Required parameter is missing" })
     }
-
-
 }
 
 export default Signup;

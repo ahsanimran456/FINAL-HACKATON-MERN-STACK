@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from "cors"
+import Router from "./Router/Router.js";
 
 const Port = process.env.PORT || 50552
 const MAngodb = process.env.MANGODBLINK

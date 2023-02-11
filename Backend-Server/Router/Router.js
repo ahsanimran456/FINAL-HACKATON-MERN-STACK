@@ -1,5 +1,9 @@
 import express from "express";
-import Signup from "./UserHandle/Signup";
+const Router = express.Router();
+// import all apis funtions 
+import Signup from "./UserHandle/Signup.js";
+
+import multer from 'multer';
 
 const storageConfig = multer.diskStorage({
     destination: './uploads/',
@@ -9,10 +13,11 @@ const storageConfig = multer.diskStorage({
     }
 })
 
-let  uploadmidleware = multer({ storage: storageConfig })
+let uploadmidleware = multer({ storage: storageConfig })
 
-Router.post("/signup",uploadmidleware.any(),Signup)
+Router.post("/signup", uploadmidleware.any(), Signup)
 
 
-const Router = express.Router();
+
+export default Router
 
