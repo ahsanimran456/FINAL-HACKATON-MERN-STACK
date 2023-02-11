@@ -9,12 +9,16 @@ import jwt from 'jsonwebtoken';
 import multer from 'multer';
 const SECRET_KEY = "secret"
 import { Users } from "../Models/Models.js";
+import Bucket from "../../FirebaseAdmin/Admin.js";
+import fs from "fs"
+
 
 function Signup(req, res) {
-    console.log("req.body: ", JSON.parse(req.body.myDetails));
-    const reArrange = JSON.parse(req.body.UserDetails)
-    const body = req.body // reArrange
-    console.log(body)
+    // console.log("req.body: ", req.body);
+    // console.log("req.body: ", JSON.parse(req.body.myDetails));
+    const body = JSON.parse(req.body.myDetails)
+    console.log("final", body)
+
     console.log("req.files: ", req.files);
     console.log("uploaded file name: ", req.files[0].originalname);
     console.log("file type: ", req.files[0].mimetype);
@@ -30,7 +34,6 @@ function Signup(req, res) {
             if (!err) {
                 // ........when user exits .....//
                 if (user) {
-                    console.log("user exist is db ")
                     res.send({ message: "Email is already in use" })
                 }
                 // ........when user does not exits .....//
@@ -62,7 +65,7 @@ function Signup(req, res) {
 
                                             let Token = jwt.sign({
                                                 name: body.email,
-                                                email: user.email,
+                                                email: body.email,
                                             }, SECRET_KEY);
                                             console.log("token", Token)
 
@@ -70,6 +73,7 @@ function Signup(req, res) {
                                                 maxAge: 86_400_000,
                                                 httpOnly: true
                                             })
+
                                             try {
                                                 const adduserDb = await Users.create({
                                                     fullname: body.fullname,
@@ -79,10 +83,10 @@ function Signup(req, res) {
                                                     ProfileUrl: urlData[0]
 
                                                 })
-                                                res.status(200).send({ message: 'Added user Successfully', data: adduserDb })
+                                                res.status(200).send({ message: 'Added User Successfully', data: adduserDb,Token:Token})
                                             }
                                             catch (err) {
-                                                console.log(err);
+                                                // console.log(err);
                                                 res.send({ message: 'Server Error' })
                                             }
                                         })
@@ -91,7 +95,7 @@ function Signup(req, res) {
                                     }
                                 })
                             } else {
-                                console.log("err: ", err)
+                                // console.log("err: ", err)
                                 res.status(500).send({ message: err });
                             }
                         }

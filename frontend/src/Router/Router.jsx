@@ -1,8 +1,15 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
+import Signup from '../Containers/Signup/Signup';
+
+
 function Router() {
-    return (  
-        <div>
-            helloo
-        </div>
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path={"/"} element={<Signup />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 
