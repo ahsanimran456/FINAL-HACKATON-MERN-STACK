@@ -24,7 +24,7 @@ function Signup() {
     };
 
     const Loginuser = (values) => {
-        console.log('Success:', values);
+        // console.log('Success:', values);
         setloader(true)
         axios.post(`http://localhost:50552/login`, {
             email: values.Email,
@@ -36,15 +36,20 @@ function Signup() {
         })
             .then((res) => {
                 console.log("res====>", res)
-                console.log("res====>", res.data.Token)
+                // console.log("res====>", res.data.Token)
                 if (res.data.message == "login successfully") {
                     toast.success("SignIn Successfully !")
+                    console.log("token",res.data.Token)
+                    localStorage.setItem("Token", res.data.Token)
+                    window.location.reload();
                     values.Email = ""
                     values.password = ''
                 }
+                else if (res.data.message=="User not found"){
+                    toast.error("User not found ")
+                }
                 setloader(false)
-                localStorage.setItem("Token", res.data.Token)
-                window.location.reload();
+               
             })
             .catch((err) => {
                 setloader(false)

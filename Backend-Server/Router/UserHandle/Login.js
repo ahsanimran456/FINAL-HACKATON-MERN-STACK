@@ -21,11 +21,12 @@ function Login(req, res) {
     let eamilvalid = /^([\w]*[\w\.]*(?!\.)@gmail.com)/
     let phonevalid = /^[0-9]{11}$/ //  && (phonevalid.test(body.phone))
 
-    if ( (body.email)  && (passwordValidation.test(body.password))) {
+    if ((body.email) && (passwordValidation.test(body.password))) {
         Users.findOne({ email: body.email }, async (err, user) => {
             if (!err) {
                 // ........when user exits .....//
                 if (user) {
+                    // console.log("usersds",user)
                     varifyHash(body.password, user.password).then(matctPassword => {
                         if (matctPassword) {
                             console.log("matched", matctPassword);
@@ -43,7 +44,8 @@ function Login(req, res) {
                             })
                             res.status(200).send({
                                 message: "login successfully",
-                                Token
+                                Token,
+                                user
                             });
                         } else {
                             res.send({ message: "Please write correct password" })
@@ -52,10 +54,9 @@ function Login(req, res) {
                         console.log("error: ", e)
                     })
                 }
-                // ........ Please write coorect email .....//
+                // ........ Please write correct email .....//
                 else {
-                    res.send({ message: "Please write correct email" })
-
+                    res.send({ message: "User not found" })
                 }
             }
         })
