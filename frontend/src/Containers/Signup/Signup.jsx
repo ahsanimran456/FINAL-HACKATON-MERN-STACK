@@ -36,7 +36,8 @@ function Signup() {
             method: 'post',
             url: "http://localhost:50552/signup",
             data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' }
+            headers: { 'Content-Type': 'multipart/form-data' },
+            withCredentials :true
         })
             .then(res => {
                 console.log('upload Success', res);

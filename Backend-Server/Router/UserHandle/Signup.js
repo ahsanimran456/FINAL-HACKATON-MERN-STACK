@@ -55,11 +55,12 @@ function Signup(req, res) {
                                             fs.unlinkSync(req.files[0].path)
                                             //file removed
                                         } catch (err) {
-                                            console.error(err)
+                                            // console.error(err)
                                         }
                                         // convert password into hash //
                                         stringToHash(body.password).then(async (password) => {
-                                            console.log("hash: ", password);
+
+                                            // console.log("hash: ", password);
 
                                             // jwt sign token 
 
@@ -67,7 +68,7 @@ function Signup(req, res) {
                                                 name: body.email,
                                                 email: body.email,
                                             }, SECRET_KEY);
-                                            console.log("token", Token)
+                                            // console.log("token", Token)
 
                                             res.cookie("Token", Token, {
                                                 maxAge: 86_400_000,
@@ -87,7 +88,7 @@ function Signup(req, res) {
                                             }
                                             catch (err) {
                                                 // console.log(err);
-                                                res.send({ message: 'Server Error' })
+                                                res.send({ message: 'Server Error in send user in db' })
                                             }
                                         })
 
