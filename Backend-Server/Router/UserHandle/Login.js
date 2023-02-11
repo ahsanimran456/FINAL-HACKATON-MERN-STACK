@@ -17,10 +17,11 @@ function Login(req, res) {
     const body = req.body
     console.log(body)
     let passwordValidation = /^[a-zA-Z0-9]{6,16}$/;
-    let namevalid = /^[A-Za-z .]{3,40}$/
+    let namevalid = /^[A-Za-z .]{3,40}$/  // (namevalid.test(body.fullname)) &&
     let eamilvalid = /^([\w]*[\w\.]*(?!\.)@gmail.com)/
-    let phonevalid = /^[0-9]{11}$/
-    if ((namevalid.test(body.fullname)) && (body.email) && (phonevalid.test(body.phone)) && (passwordValidation.test(body.password))) {
+    let phonevalid = /^[0-9]{11}$/ //  && (phonevalid.test(body.phone))
+
+    if ( (body.email)  && (passwordValidation.test(body.password))) {
         Users.findOne({ email: body.email }, async (err, user) => {
             if (!err) {
                 // ........when user exits .....//

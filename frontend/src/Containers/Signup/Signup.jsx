@@ -4,6 +4,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import './Login.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Blocks } from  'react-loader-spinner'
 function Signup() {
     // const [Name, setName] = useState();
     // const [Email, setEmail] = useState();
@@ -14,59 +15,81 @@ function Signup() {
     // const [input, setinput] = useState();
     const [togglestate, settogglestate] = useState(true);
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
-        console.log('Success:', values.Email);
-    };
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
-    const Createuser = (values) => {
+    const Loginuser = (values) => {
+        console.log('Success:', values);
+        axios.post(`http://localhost:50552/login`, {
+            email: values.Email,
+            password: values.password,
+            // fullname: values.Email,
+            // phone: phonenumber,
+        }, {
+            withCredentials: true
+        })
+            .then((res) => {
+                console.log("res====>", res)
+                console.log("res====>", res.data.Token)
+                if (res.data.message == "login successfully") {
+                    toast.success("SignIn Successfully !")
+                    values.Email=""
+                    values.password=''
+                }
 
+                // localStorage.setItem("Token", res.data.Token)
+                // window.location.reload();
+            })
+            .catch((err) => console.log("errr", err))
+    };
+
+
+    const Createuser = (values) => {
         const picture = document.getElementById("imgae")
         // const url = URL.createObjectURL(picture.files[0])
         // setimage(url)
-        if(values.password === values.ConfirmPass){
-        const userdetails = {
-            fullname: values.UserName.trim(),
-            email: values.Email.trim(),
-            password: values.password.trim()
-            // phone: phonenumber,
-        }
+        if (values.password === values.ConfirmPass) {
+            const userdetails = {
+                fullname: values.UserName.trim(),
+                email: values.Email.trim(),
+                password: values.password.trim()
+                // phone: phonenumber,
+            }
 
-        let formData = new FormData();
-        formData.append("UserProfile", picture.files[0]);
-        formData.append("myDetails",
-            JSON.stringify(userdetails));
-        axios({
-            method: 'post',
-            url: "http://localhost:50552/signup",
-            data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' },
-            withCredentials: true
-        })
-            .then(res => {
-                console.log('upload Success', res);
-                if (res.data.message == "Added User Successfully") {
-                    toast.success("SignIn Successfully !")
-                    values.UserName = ""
-                    values.Email = ""
-                    values.password = ''
-                }
-                else if (res.data.message== 'Email is already in use') {
-                    toast.warn(`Email is already in use`)
-                    return
-                } else if (res.data.Message == 'Required parameter is missing') {
-                    toast.error(`Required parameter in missing`)
-                    return
-                }
+            let formData = new FormData();
+            formData.append("UserProfile", picture.files[0]);
+            formData.append("myDetails",
+                JSON.stringify(userdetails));
+            axios({
+                method: 'post',
+                url: "http://localhost:50552/signup",
+                data: formData,
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true
             })
-            .catch(err => {
-                console.log(err);
-                toast.error("Something went wrong")
-            })
-        }else{
+                .then(res => {
+                    console.log('upload Success', res);
+                    if (res.data.message == "Added User Successfully") {
+                        toast.success("SignIn Successfully !")
+                        values.UserName = ""
+                        values.Email = ""
+                        values.password = ''
+                    }
+                    else if (res.data.message == 'Email is already in use') {
+                        toast.warn(`Email is already in use`)
+                        return
+                    } else if (res.data.Message == 'Required parameter is missing') {
+                        toast.error(`Required parameter in missing`)
+                        return
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error("Something went wrong")
+                })
+        } else {
             toast.warn("password doesn't match")
 
         }
@@ -113,17 +136,6 @@ function Signup() {
     }
 
     return (
-        // <div>
-        //     <div>
-        //         <input type="text" onChange={(e) => setName(e.target.value)} placeholder="name" />
-        //         <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="email" />
-        //         <input type="pasword" onChange={(e) => setpassword(e.target.value)} placeholder="pasword" />
-        //         <input type="number" onChange={(e) => setphonenumber(e.target.value)} placeholder="number" />
-        //         <input type="file" id="imgae" accept="image/*" />
-        //     </div>
-        //     <button onClick={sendimg}>send</button>
-        //     <img src={image} alt="" width={300} height={300} />
-        // </div>
         <div className="Main">
             <ToastContainer
                 position="bottom-right"
@@ -150,7 +162,7 @@ function Signup() {
                                         initialValues={{
                                             remember: true,
                                         }}
-                                        onFinish={onFinish}
+                                        onFinish={Loginuser}
                                         onFinishFailed={onFinishFailed}
                                         autoComplete="on"
                                     >
@@ -186,7 +198,7 @@ function Signup() {
                                             }}
                                         >
                                             <Button type="primary" htmlType="submit" style={{ backgroundColor: "#B0A4FD" }}>
-                                                Login 
+                                                Login
                                             </Button>
                                         </Form.Item>
                                     </Form>
@@ -200,6 +212,7 @@ function Signup() {
                         </div>
                     </div>
                     :
+                    //  signup user 
                     <div className="signup">
                         <div className="row">
                             <div className="col"></div>
