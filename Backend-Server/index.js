@@ -15,6 +15,7 @@ mongoose.connect(`mongodb+srv://ahsanimran:saylanihackaton@cluster0.6s824ks.mong
     .catch((err) => console.log("err ===>", err))
 
 
+app.use("/", Router)
 
 app.use("/", (req, res) => {
     res.send(new Date());
