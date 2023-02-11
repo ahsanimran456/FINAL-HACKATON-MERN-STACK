@@ -13,7 +13,7 @@ function Signup() {
     const [errormessage, seterrormessage] = useState("");
     const [input, setinput] = useState();
     const [togglestate, settogglestate] = useState(true);
-    
+
     const onFinish = (values) => {
         console.log('Success:', values);
         console.log('Success:', values.Email);
@@ -22,9 +22,7 @@ function Signup() {
         console.log('Failed:', errorInfo);
     };
 
-    const Createuser =(values)=>{
-
-        
+    const Createuser = (values) => {
 
         const picture = document.getElementById("imgae")
         const url = URL.createObjectURL(picture.files[0])
@@ -202,6 +200,27 @@ function Signup() {
                                         onFinishFailed={onFinishFailed}
                                         autoComplete="on"
                                     >
+                                        <div style={{ textAlign: "center", position: "relative" }}>
+                                            <div style={{ position: "relative", cursor: "pointer" }}>
+                                                <img src={require("../../assests/images/userprofile.gif")} width={100} height={100} alt="" />
+                                            </div>
+                                            <Input type="file" className="img" id="imgae" accept="image/*" />
+                                        </div>
+
+                                        <Form.Item
+                                            label="UserName"
+                                            name="UserName"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please input your Name !',
+                                                },
+                                            ]}
+                                        >
+                                            <Input type="text" />
+                                        </Form.Item>
+
+
                                         <Form.Item
                                             label="Email"
                                             name="Email"
@@ -212,7 +231,7 @@ function Signup() {
                                                 },
                                             ]}
                                         >
-                                            <Input />
+                                            <Input type="email" />
                                         </Form.Item>
 
                                         <Form.Item
@@ -222,6 +241,18 @@ function Signup() {
                                                 {
                                                     required: true,
                                                     message: 'Please input your password!',
+                                                },
+                                            ]}
+                                        >
+                                            <Input.Password />
+                                        </Form.Item>
+                                        <Form.Item
+                                            label="Confirm Pass"
+                                            name="Confirm Pass"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Please Confirm your password!',
                                                 },
                                             ]}
                                         >

@@ -39,3 +39,12 @@
     align-items: center;
     flex-direction: column;
 }
+
+
+.img{
+    position: absolute;
+    top: 6%;
+    height: 78px;
+    opacity: 0;
+    cursor: pointer;
+}
