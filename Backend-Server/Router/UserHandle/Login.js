@@ -25,8 +25,6 @@ function Login(req, res) {
             if (!err) {
                 // ........when user exits .....//
                 if (user) {
-                    // console.log("user exist is db ")
-                    // res.send({ message: "Email is already in use" })
                     varifyHash(body.password, user.password).then(matctPassword => {
                         if (matctPassword) {
                             console.log("matched", matctPassword);
@@ -43,7 +41,7 @@ function Login(req, res) {
                                 httpOnly: true
                             })
                             res.status(200).send({
-                                message: "login successful",
+                                message: "login successfully",
                                 Token
                             });
                         } else {

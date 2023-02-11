@@ -16,7 +16,12 @@ function Login() {
         }, {
             withCredentials: true
         })
-            .then((res) => console.log("res====>", res))
+            .then((res) => {
+                console.log("res====>", res)
+                console.log("res====>", res.data.Token)
+                localStorage.setItem("Token", res.data.Token)
+                window.location.reload();
+            })
             .catch((err) => console.log("errr", err))
     }
     return (
