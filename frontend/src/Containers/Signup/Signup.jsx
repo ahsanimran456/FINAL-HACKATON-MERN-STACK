@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import './Login.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Blocks } from  'react-loader-spinner'
+import { Blocks } from 'react-loader-spinner'
 function Signup() {
     // const [Name, setName] = useState();
     // const [Email, setEmail] = useState();
@@ -14,6 +14,7 @@ function Signup() {
     // const [errormessage, seterrormessage] = useState("");
     // const [input, setinput] = useState();
     const [togglestate, settogglestate] = useState(true);
+    const [loader, setloader] = useState(false);
 
 
     const onFinishFailed = (errorInfo) => {
@@ -22,6 +23,7 @@ function Signup() {
 
     const Loginuser = (values) => {
         console.log('Success:', values);
+        setloader(true)
         axios.post(`http://localhost:50552/login`, {
             email: values.Email,
             password: values.password,
@@ -35,18 +37,21 @@ function Signup() {
                 console.log("res====>", res.data.Token)
                 if (res.data.message == "login successfully") {
                     toast.success("SignIn Successfully !")
-                    values.Email=""
-                    values.password=''
+                    values.Email = ""
+                    values.password = ''
                 }
-
+                setloader(false)
                 // localStorage.setItem("Token", res.data.Token)
                 // window.location.reload();
             })
-            .catch((err) => console.log("errr", err))
+            .catch((err) => {
+                setloader(false)
+            })
     };
 
 
     const Createuser = (values) => {
+        setloader(true)
         const picture = document.getElementById("imgae")
         // const url = URL.createObjectURL(picture.files[0])
         // setimage(url)
@@ -79,23 +84,21 @@ function Signup() {
                     }
                     else if (res.data.message == 'Email is already in use') {
                         toast.warn(`Email is already in use`)
-                        return
                     } else if (res.data.Message == 'Required parameter is missing') {
                         toast.error(`Required parameter in missing`)
-                        return
                     }
+                    setloader(false)
                 })
                 .catch(err => {
                     console.log(err);
                     toast.error("Something went wrong")
+                    setloader(false)
+
                 })
         } else {
-            toast.warn("password doesn't match")
+            toast.warn("confirm password doesn't match")
 
         }
-
-
-
 
     }
 
@@ -197,9 +200,20 @@ function Signup() {
                                                 span: 16,
                                             }}
                                         >
-                                            <Button type="primary" htmlType="submit" style={{ backgroundColor: "#B0A4FD" }}>
-                                                Login
-                                            </Button>
+                                            {loader ?
+                                                <Blocks
+                                                    visible={true}
+                                                    height="50"
+                                                    width="80"
+                                                    ariaLabel="blocks-loading"
+                                                    wrapperStyle={{}}
+                                                    wrapperClass="blocks-wrapper"
+                                                />
+                                                :
+                                                <Button type="primary" htmlType="submit" style={{ backgroundColor: "#B0A4FD" }}>
+                                                    Login
+                                                </Button>
+                                            }
                                         </Form.Item>
                                     </Form>
                                     <div>
@@ -300,9 +314,21 @@ function Signup() {
                                                 span: 16,
                                             }}
                                         >
-                                            <Button type="primary" htmlType="submit" style={{ backgroundColor: "#B0A4FD" }}>
-                                                Signup
-                                            </Button>
+                                            {loader ?
+                                                <Blocks
+                                                    visible={true}
+                                                    height="50"
+                                                    width="80"
+                                                    ariaLabel="blocks-loading"
+                                                    wrapperStyle={{}}
+                                                    wrapperClass="blocks-wrapper"
+                                                />
+                                                :
+                                                <Button type="primary" htmlType="submit" style={{ backgroundColor: "#B0A4FD" }}>
+                                                    Signup
+                                                </Button>
+                                            }
+
                                         </Form.Item>
                                     </Form>
                                     <div>
