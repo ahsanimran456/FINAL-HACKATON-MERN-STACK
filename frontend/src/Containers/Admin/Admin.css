@@ -49,7 +49,9 @@
 }
 
 .adminbody{
-    padding: 20px 10px
+    padding: 20px 10px;
+    position: relative;
+    
 }
 
 .adminheading h3{
@@ -70,4 +72,16 @@
 .innerproduct{
     display: flex;
     align-items: center;
+}
+
+.adminfoo{
+    position: fixed;
+    bottom: 0% !important;
+    width: 100%;
+    left: 0%;
+    z-index: 1;
+    background-color: #fff;
+}
+.adminpanel{
+    /* position: relative; */
 }

@@ -1,5 +1,6 @@
 import "./Admin.css"
 import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
 import { useState, useEffect } from "react";
 import Cart from "../../Components/Cart";
 import { async } from "@firebase/util";
@@ -21,12 +22,13 @@ import {
 function Admin() {
     const [data, setdata] = useState([]);
 
-    const dataload = async() => {
+    const dataload = async () => {
         const querySnapshot = await getDocs(collection(db, "Products"));
+        const items = []
         querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
             console.log(" => ", doc.data());
-            setdata(doc.data())
+            items.push(doc.data())
+            setdata(items)
             console.log("data", data)
         });
     }
@@ -46,6 +48,66 @@ function Admin() {
                     </h3>
                 </div>
 
+                {data && data.map((values, i) => {
+                    return (
+                        <div className="adminproductsget">
+                            <div className="innerproduct">
+                                <div>
+                                    <img src={values.productimage} alt="" width={80} height={80} style={{ borderRadius: "7px" }} />
+                                </div>
+                                <div style={{ marginLeft: "5px" }}>
+                                    <div>
+                                        <span>{values.itemname}</span>
+                                    </div>
+                                    <div>
+                                        <span>{values.unitname}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span>{values.unitprice} RS</span>
+                            </div>
+                        </div>
+
+                    )
+                })}
+
+                {/* <div className="adminproductsget">
+                    <div className="innerproduct">
+                        <div>
+                            <img src={require("../../assests/images/item3.jpg")} alt="" width={80} height={80} />
+                        </div>
+                        <div>
+                            <div>
+                                <span>Apple</span>
+                            </div>
+                            <div>
+                                <span>1kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span>4$</span>
+                    </div>
+                </div> */}
+                {/* <div className="adminproductsget">
+                    <div className="innerproduct">
+                        <div>
+                            <img src={require("../../assests/images/item3.jpg")} alt="" width={80} height={80} />
+                        </div>
+                        <div>
+                            <div>
+                                <span>Dry Milk</span>
+                            </div>
+                            <div>
+                                <span>1kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span>1$</span>
+                    </div>
+                </div>
                 <div className="adminproductsget">
                     <div className="innerproduct">
                         <div>
@@ -63,6 +125,27 @@ function Admin() {
                     <div>
                         <span>4$</span>
                     </div>
+                </div>
+                <div className="adminproductsget">
+                    <div className="innerproduct">
+                        <div>
+                            <img src={require("../../assests/images/item3.jpg")} alt="" width={80} height={80} />
+                        </div>
+                        <div>
+                            <div>
+                                <span>Apple</span>
+                            </div>
+                            <div>
+                                <span>1kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span>4$</span>
+                    </div>
+                </div> */}
+                <div className="adminfoo">
+                    <Footer />
                 </div>
             </div>
 

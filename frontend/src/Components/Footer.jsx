@@ -4,22 +4,31 @@ import {
     UserOutlined,
     ShoppingCartOutlined
 } from '@ant-design/icons'
+import { useNavigate } from "react-router-dom";
+
 function Footer() {
+    const navigate = useNavigate()
+    const gohome = () => {
+        navigate("/admin")
+    }
+    const addproduct = () => {
+        navigate("/admin/addproduct")
+    }
     return (
         <div className="footer">
-            <div className="footerparent">
+            <div className="footerparent"onClick={gohome}>
                 <div>
-                    <HomeOutlined />
+                    <HomeOutlined  />
                 </div>
                 <div>
-                    <span>
+                    <span >
                         Home
                     </span>
                 </div>
             </div>
-            <div className="footerparent">
+            <div className="footerparent" onClick={addproduct}>
                 <div>
-                    <ShoppingCartOutlined />
+                    <ShoppingCartOutlined  />
                 </div>
                 <div>
                     <span>
