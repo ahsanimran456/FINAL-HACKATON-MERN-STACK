@@ -17,7 +17,9 @@ import {
     addDoc,
     orderBy
 } from '../../FirebaseConfig/Firebase.js'
-import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import UploadOutlined from '@ant-design/icons'
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 
@@ -45,12 +47,12 @@ function AddProducts() {
     }
     const uploadButton = (
         <div className='uplaoder_imag' >
-            <CameraAltIcon className='camera_icon' />
+            <UploadOutlined className='camera_icon' />
         </div>
     )
 
     const addproduct = async () => {
-        console.log(itemname, category, description, unitname, unitprice)
+        console.log(itemname, category, description, unitname, unitprice, fileList[0].thumbUrl)
         try {
             await addDoc(collection(db, "Products"), {
                 itemname: itemname,
@@ -58,8 +60,11 @@ function AddProducts() {
                 description: description,
                 unitname: unitname,
                 unitprice: unitprice,
+                productimage: fileList[0].thumbUrl,
                 timestamp: new Date(),
             })
+            toast.success("Product added successfully")
+
 
         } catch (err) {
             console.log(err)
@@ -70,6 +75,10 @@ function AddProducts() {
 
     return (
         <div className="Addproducts">
+            <ToastContainer
+                position="top-right"
+                theme="colored"
+                autoClose={3000} />
             <div>
                 <Header />
             </div>
@@ -79,7 +88,7 @@ function AddProducts() {
                 </h3>
             </div>
             <div className="additemsinputs">
-                <dir>
+                <div>
                     <ImgCrop rotate>
                         <Upload
                             listType="picture-card"
@@ -90,7 +99,7 @@ function AddProducts() {
                             {fileList.length < 1 && uploadButton}
                         </Upload>
                     </ImgCrop>
-                </dir>
+                </div>
                 <div className="eachinputs">
                     <input type="text" placeholder="Item Name" onChange={(e) => setitemname(e.target.value)} />
                 </div>

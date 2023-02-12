@@ -1,7 +1,12 @@
+import "./Admin.css"
+import Header from "../../Components/Header";
 function Admin() {
-    return (  
-        <div>
-            hello admin 
+    return (
+        <div className="adminpanel">
+            <div>
+                <Header/>
+            </div>
+
         </div>
     );
 }
