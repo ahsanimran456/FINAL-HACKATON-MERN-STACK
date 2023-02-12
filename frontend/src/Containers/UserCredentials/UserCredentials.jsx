@@ -1,11 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
-import { Button, Checkbox, Form, Input } from 'antd';
+import {  Checkbox, Form, Input } from 'antd';
 import './Userscreen.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Blocks } from 'react-loader-spinner'
-import {UserAddOutlined }from  '@ant-design/icons'
+import { Button } from 'react-bootstrap';
+import {UserAddOutlined ,
+    PhoneOutlined,
+    MailOutlined ,
+    EyeOutlined
+}from  '@ant-design/icons'
 
 function UserCredentials() {
 
@@ -112,32 +117,87 @@ function UserCredentials() {
     }
 
     return (
+  
         <div className="Main">
+                {  togglestate ? 
             <div className="login">
                 <div className="header">
-                    <h3>
+                    <h2>
                         SALANI WELFARE
-                    </h3>
-                    <h5>
+                    </h2>
+                    <h6>
                         ONLINE DISTOUNT STORE
-                    </h5>
+                    </h6>
                 </div>
                 <div className="body">
                     <div>
-                        <input type="text" /> 
-                        <span><UserAddOutlined /></span>
+                        <span className="icons"><UserAddOutlined /></span>
+                        <input type="text" required placeholder="Full Name" /> 
                     </div>
                     <div>
-                        <input type="text" />
+                        <span className="icons"><PhoneOutlined /></span>
+                        <input type="number" required placeholder="Number" />
+
                     </div>
                     <div>
-                        <input type="text" />
+                        <span className="icons"><MailOutlined /></span>
+                        <input type="email" required placeholder="Email"  />
+
                     </div>
                     <div>
-                        <input type="text" />
+                         <span className="icons"><EyeOutlined /></span>
+                        <input type="password" required placeholder="Password" />
+                        
+                    </div>
+                    <div className="btn-su">
+                    {/* <Button variant="outline-success" >Success</Button> */}
+                    <button>
+                        <span style={{fontWeight:"700",color:"#fff"}}>
+                             Success
+                        </span>
+                        </button>
                     </div>
                 </div>
-            </div>
+            </div> :
+             <div className="login">
+             <div className="header">
+                 <h2>
+                     SALANI WELFARE
+                 </h2>
+                 <h6>
+                     ONLINE DISTOUNT STORE
+                 </h6>
+             </div>
+             <div className="body">
+                 <div>
+                     <span className="icons"><UserAddOutlined /></span>
+                     <input type="text" required placeholder="Full Name" /> 
+                 </div>
+                 <div>
+                     <span className="icons"><PhoneOutlined /></span>
+                     <input type="number" required placeholder="Number" />
+
+                 </div>
+                 <div>
+                     <span className="icons"><MailOutlined /></span>
+                     <input type="email" required placeholder="Email"  />
+
+                 </div>
+                 <div>
+                      <span className="icons"><EyeOutlined /></span>
+                     <input type="password" required placeholder="Password" />
+                     
+                 </div>
+                 <div className="btn-su">
+                 {/* <Button variant="outline-success" >Success</Button> */}
+                 <button>
+                     <span style={{fontWeight:"700",color:"#fff"}}>
+                          signup
+                     </span>
+                     </button>
+                 </div>
+             </div>
+         </div>}
 
         </div>
     );
