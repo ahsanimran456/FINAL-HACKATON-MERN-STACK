@@ -33,7 +33,7 @@ function Footer() {
                 </div>
                 <div>
                     <span>
-                        Accout
+                        Account
                     </span>
                 </div>
             </div>

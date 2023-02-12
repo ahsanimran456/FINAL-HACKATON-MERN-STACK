@@ -46,7 +46,7 @@ function Userprofile() {
             <div className="productsshow">
                 <Cart />
             </div>
-            <div>
+            <div className='footabsolute'>
                 < Footer />
             </div>
 

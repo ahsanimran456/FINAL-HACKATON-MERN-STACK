@@ -38,7 +38,7 @@
 
 
 .footer{
-    padding: 10px 7px;
+    padding: 6px 7px;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -50,4 +50,10 @@
     justify-content: center;
     flex-direction: column;
     text-align: center;
+
+}
+
+.footerparent span{
+    font-size: 15px;
+    color: #9d9696;
 }
