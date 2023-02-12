@@ -1,6 +1,7 @@
 import React from 'react'
 import './userprofile.css'
 import Cart from '../../Components/Cart'
+import Footer from '../../Components/Footer'
 import {
 
     ShoppingCartOutlined,
@@ -43,7 +44,10 @@ function Userprofile() {
                 </div>
             </div>
             <div className="productsshow">
-                <Cart/>
+                <Cart />
+            </div>
+            <div>
+                < Footer />
             </div>
 
         </div>
