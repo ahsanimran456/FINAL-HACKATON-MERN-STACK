@@ -29,7 +29,6 @@ function AddProducts() {
     const [description, setdescription] = useState();
     const [unitname, setunitname] = useState();
     const [unitprice, setunitprice] = useState();
-
     const [fileList, setFileList] = useState([]);
 
     const onChange = ({ fileList: newFileList }) => {
@@ -63,6 +62,11 @@ function AddProducts() {
                 productimage: fileList[0].thumbUrl,
                 timestamp: new Date(),
             })
+             setitemname ("")
+             setcategory("")
+             setdescription ("")
+             setunitname ("")
+             setunitprice ("")
             toast.success("Product added successfully")
 
 
