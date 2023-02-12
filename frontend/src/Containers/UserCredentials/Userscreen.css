@@ -10,7 +10,9 @@
 
 .login {
     background-color: #FFF;
-    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+    /* box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%); */
+    box-shadow: 0px 2px 12px 3px #61B846;
+    backdrop-filter: blur(25px);
     padding: 20px 40px;
     display: flex;
     justify-content: center;

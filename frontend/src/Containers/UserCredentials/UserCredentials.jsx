@@ -14,7 +14,7 @@ import {UserAddOutlined ,
 
 function UserCredentials() {
 
-    const [togglestate, settogglestate] = useState(true);
+    const [togglestate, settogglestate] = useState(false);
     const [loader, setloader] = useState(false);
 
 
@@ -150,12 +150,16 @@ function UserCredentials() {
                         
                     </div>
                     <div className="btn-su">
-                    {/* <Button variant="outline-success" >Success</Button> */}
-                    <button>
-                        <span style={{fontWeight:"700",color:"#fff"}}>
+                        <button>
+                            <span style={{fontWeight:"700",color:"#fff"}}>
                              Success
-                        </span>
+                            </span>
                         </button>
+                    </div>
+                    <div className="">
+                            <p style={{color:"#024F9D",fontWeight:600,cursor:"pointer"}} onClick={toggle}>
+                                Don't havean account? Register
+                            </p>
                     </div>
                 </div>
             </div> :
@@ -190,12 +194,17 @@ function UserCredentials() {
                  </div>
                  <div className="btn-su">
                  {/* <Button variant="outline-success" >Success</Button> */}
-                 <button>
-                     <span style={{fontWeight:"700",color:"#fff"}}>
-                          signup
-                     </span>
+                    <button>
+                         <span style={{fontWeight:"700",color:"#fff"}}>
+                              signup
+                        </span>
                      </button>
                  </div>
+                 <div className="">
+                            <p style={{color:"#024F9D",fontWeight:600,cursor:"pointer"}} onClick={toggle}>
+                                Already have an account? Login
+                            </p>
+                </div>
              </div>
          </div>}
 
