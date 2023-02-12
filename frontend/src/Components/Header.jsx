@@ -2,7 +2,32 @@ import {
     MenuUnfoldOutlined
 } from '@ant-design/icons'
 import "./Component.css"
+import { useNavigate } from "react-router-dom";
+import {
+    getAuth,
+    doc,
+    setDoc,
+    db,
+    onAuthStateChanged,
+    getDocs,
+    getDoc,
+    collection, auth,
+    onSnapshot,
+    query, where,
+    addDoc,
+    orderBy,
+    signOut
+} from '../FirebaseConfig/Firebase.js'
 function Header() {
+    const navigate = useNavigate()
+
+    const logout = () => {
+        signOut(auth).then(() => {
+            navigate('/')
+        }).catch((error) => {
+            // An error happened.
+        });
+    }
     return (
         <div className="everyheader">
             <div className='everymain'>
@@ -18,7 +43,7 @@ function Header() {
                 </div>
             </div>
             <div>
-                <MenuUnfoldOutlined />
+                <MenuUnfoldOutlined onClick={logout} />
             </div>
         </div>
     );

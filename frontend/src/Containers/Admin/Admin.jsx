@@ -23,8 +23,8 @@ function Admin() {
     const [data, setdata] = useState([]);
 
     const dataload = async () => {
-        const querySnapshot = await getDocs(collection(db, "Products"));
         const items = []
+        const querySnapshot = await getDocs(collection(db, "Products"));
         querySnapshot.forEach((doc) => {
             console.log(" => ", doc.data());
             items.push(doc.data())
