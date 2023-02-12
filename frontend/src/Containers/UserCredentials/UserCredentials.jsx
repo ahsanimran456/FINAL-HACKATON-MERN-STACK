@@ -69,8 +69,7 @@ function UserCredentials() {
                 }else{
                     navigate('/user')   
 
-                }
-               
+                }      
             }
         });
     }, [])
@@ -107,11 +106,11 @@ function UserCredentials() {
 
     }
 
-
     const Createuser = () => {
     console.log(username,email,password,phonenumber)
     if((nametest.test(username)) && (emailtest.test(email)) && (passwordtest.test(password))&&(phonetest.test(phonenumber))){
-    createUserWithEmailAndPassword(auth, email, password)
+        setloaders(true) 
+         createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         // Signed up  
         const user = userCredential.user;
@@ -122,6 +121,7 @@ function UserCredentials() {
           phonenumber:phonenumber,
           userUid:user.uid
         }) 
+        setloaders(false)
         toast.success("Sign Up Successfully !")
         console.log("signup===>", user)
         if(user.email == "admin@gmail.com") {
@@ -131,10 +131,12 @@ function UserCredentials() {
         }
       })
       .catch((error) => {
+        setloaders(true)
         const errorCode = error.code;
         const errorMessage = error.message;
         toast.error(`${errorMessage}`)
         console.log("signup error===>", errorMessage)
+        setloaders(false)
       });
   }else{
     toast.error("please fill required input fileds")
@@ -229,11 +231,21 @@ function UserCredentials() {
                      
                  </div>
                  <div className="btn-su">
-                    <button onClick={Createuser}>
-                         <span style={{fontWeight:"700",color:"#fff"}}>
-                         Sign Up
-                        </span>
-                     </button>
+                 {loaders ? <Bars
+                            height="50"
+                            width="50"
+                            color="#4fa94d"
+                            ariaLabel="bars-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                             />:
+                             <button onClick={Createuser}>
+                             <span style={{fontWeight:"700",color:"#fff"}}>
+                             Sign Up
+                            </span>
+                         </button> }
+                    
                  </div>
                  <div className="">
                             <p style={{color:"#024F9D",fontWeight:600,cursor:"pointer"}} onClick={toggle}>

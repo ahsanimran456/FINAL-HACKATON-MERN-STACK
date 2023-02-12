@@ -18,9 +18,11 @@ import {
     addDoc,
     orderBy
 } from '../../FirebaseConfig/Firebase.js'
+import { Bars } from 'react-loader-spinner'
 
 function Admin() {
     const [data, setdata] = useState([]);
+    const [loader, setloader] = useState(true);
 
     const dataload = async () => {
         const items = []
@@ -28,6 +30,7 @@ function Admin() {
         querySnapshot.forEach((doc) => {
             console.log(" => ", doc.data());
             items.push(doc.data())
+            setloader(false)
             setdata(items)
             console.log("data", data)
         });
@@ -48,29 +51,39 @@ function Admin() {
                     </h3>
                 </div>
 
-                {data && data.map((values, i) => {
-                    return (
-                        <div className="adminproductsget">
-                            <div className="innerproduct">
+                {loader ? <Bars
+                    height="80"
+                    width="100%"
+                    color="#4fa94d"
+                    ariaLabel="bars-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    
+                /> :
+                    data.map((values, i) => {
+                        return (
+                            <div className="adminproductsget">
+                                <div className="innerproduct">
+                                    <div>
+                                        <img src={values.productimage} alt="" width={80} height={80} style={{ borderRadius: "7px" }} />
+                                    </div>
+                                    <div style={{ marginLeft: "5px" }}>
+                                        <div>
+                                            <span>{values.itemname}</span>
+                                        </div>
+                                        <div>
+                                            <span>{values.unitname}</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div>
-                                    <img src={values.productimage} alt="" width={80} height={80} style={{ borderRadius: "7px" }} />
-                                </div>
-                                <div style={{ marginLeft: "5px" }}>
-                                    <div>
-                                        <span>{values.itemname}</span>
-                                    </div>
-                                    <div>
-                                        <span>{values.unitname}</span>
-                                    </div>
+                                    <span>{values.unitprice} RS</span>
                                 </div>
                             </div>
-                            <div>
-                                <span>{values.unitprice} RS</span>
-                            </div>
-                        </div>
 
-                    )
-                })}
+                        )
+                    })}
 
                 {/* <div className="adminproductsget">
                     <div className="innerproduct">
