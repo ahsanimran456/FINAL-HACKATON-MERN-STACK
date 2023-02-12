@@ -14,7 +14,7 @@ import {UserAddOutlined ,
 //     doc, setDoc, db,
 //     auth
 // } from '../../FirebaseConfig/Firebase.js'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
@@ -22,6 +22,8 @@ import {
     getFirestore,
     doc,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAnnCNWsHUJFze854dWrFbqZE6hvh0pY7s",
@@ -53,6 +55,8 @@ function UserCredentials() {
     const [email, setemail] = useState();
     const [password, setpassword] = useState();
     const [phonenumber, setphonenumber] = useState();
+
+    const navigate = useNavigate()
 
 
     const onFinishFailed = (errorInfo) => {
@@ -91,7 +95,29 @@ function UserCredentials() {
         //     .catch((err) => {
         //         setloader(false)
         //     })
-    };
+    if((emailtest.test(email))&&(passwordtest.test(password))){
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+         toast.success("Sign In Successfully !")
+         const user = userCredential.user;
+         if(user.email == "admin@gmail.com") {
+            navigate('/admin')
+        }else{
+            navigate('/home')
+        }
+         
+          console.log("login user .....", user)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log("login error", errorMessage)
+          toast.error("Some thing went wrong!")
+        });
+    }else{
+        toast.error("Please fill required input fileds")
+    }
+    }
 
 
     const Createuser = (values) => {
@@ -151,6 +177,7 @@ function UserCredentials() {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         // Signed in 
+        
         const user = userCredential.user;
         await setDoc(doc(db, "users", user.uid), {
           name: username,
@@ -159,13 +186,17 @@ function UserCredentials() {
           phonenumber:phonenumber,
           userUid:user.uid
         }) 
+        toast.success("Sign Up Successfully !")
         console.log("signup===>", user)
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        toast.error("Something went Wrong!")
         console.log("signup error===>", errorMessage)
       });
+  }else{
+    toast.error("please fill required input fileds")
   }
 }
 
@@ -177,6 +208,10 @@ function UserCredentials() {
     return (
   
         <div className="Main">
+             <ToastContainer
+                position="top-right"
+                theme="colored"
+                autoClose={3000} />
                 {  togglestate ? 
             <div className="login">
                 <div className="header">
@@ -198,7 +233,7 @@ function UserCredentials() {
                         
                     </div>
                     <div className="btn-su">
-                        <button>
+                        <button onClick={Loginuser}>
                             <span style={{fontWeight:"700",color:"#fff"}}>
                              Sign In
 
