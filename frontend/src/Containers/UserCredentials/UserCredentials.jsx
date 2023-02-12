@@ -1,21 +1,58 @@
 import axios from "axios";
 import { useState } from "react";
-import {  Checkbox, Form, Input } from 'antd';
 import './Userscreen.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Blocks } from 'react-loader-spinner'
-import { Button } from 'react-bootstrap';
 import {UserAddOutlined ,
     PhoneOutlined,
     MailOutlined ,
     EyeOutlined
 }from  '@ant-design/icons'
+// import {
+//     createUserWithEmailAndPassword,
+//     doc, setDoc, db,
+//     auth
+// } from '../../FirebaseConfig/Firebase.js'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import {
+    setDoc,
+    getFirestore,
+    doc,
+} from "firebase/firestore";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAnnCNWsHUJFze854dWrFbqZE6hvh0pY7s",
+    authDomain: "saylani-mart.firebaseapp.com",
+    projectId: "saylani-mart",
+    storageBucket: "saylani-mart.appspot.com",
+    messagingSenderId: "607228020579",
+    appId: "1:607228020579:web:d6fd68ad19f55614c47556",
+    measurementId: "G-CFGMNNYBW4"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getFirestore(app)
+
+        let nametest = /^[A-Za-z .]{3,20}$/
+        let emailtest = /^([\w]*[\w\.]*(?!\.)@gmail.com)/
+        let passwordtest = /^[a-zA-Z0-9]{6,16}$/;
+        let phonetest = /^[0-9]{11}$/;
 
 function UserCredentials() {
 
     const [togglestate, settogglestate] = useState(false);
     const [loader, setloader] = useState(false);
+
+    const [username, setusername] = useState();
+    const [email, setemail] = useState();
+    const [password, setpassword] = useState();
+    const [phonenumber, setphonenumber] = useState();
 
 
     const onFinishFailed = (errorInfo) => {
@@ -108,8 +145,29 @@ function UserCredentials() {
         //     toast.warn("confirm password doesn't match")
 
         // }
-
-    }
+        
+    console.log(username,email,password,phonenumber)
+    if((nametest.test(username)) && (emailtest.test(email)) && (passwordtest.test(password))&&(phonetest.test(phonenumber))){
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        await setDoc(doc(db, "users", user.uid), {
+          name: username,
+          email: email,
+          password:password,
+          phonenumber:phonenumber,
+          userUid:user.uid
+        }) 
+        console.log("signup===>", user)
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("signup error===>", errorMessage)
+      });
+  }
+}
 
 
     const toggle = () => {
@@ -132,11 +190,11 @@ function UserCredentials() {
                 <div className="body">
                      <div>
                         <span className="icons"><MailOutlined /></span>
-                        <input type="email" required placeholder="Email"  />
+                        <input type="email" required placeholder="Email" onChange={(e)=>{setemail(e.target.value)}}  />
                     </div>
                     <div>
                          <span className="icons"><EyeOutlined /></span>
-                        <input type="password" required placeholder="Password" />
+                        <input type="password" required placeholder="Password"onChange={(e)=>{setpassword(e.target.value)}}   />
                         
                     </div>
                     <div className="btn-su">
@@ -166,26 +224,26 @@ function UserCredentials() {
              <div className="body">
                  <div>
                      <span className="icons"><UserAddOutlined /></span>
-                     <input type="text" required placeholder="Full Name" /> 
+                     <input type="text" required placeholder="Full Name" onChange={(e)=>{setusername(e.target.value)}} /> 
                  </div>
                  <div>
                      <span className="icons"><PhoneOutlined /></span>
-                     <input type="number" required placeholder="Number" />
+                     <input type="number" required placeholder="Number"onChange={(e)=>{setphonenumber(e.target.value)}} />
 
                  </div>
                  <div>
                      <span className="icons"><MailOutlined /></span>
-                     <input type="email" required placeholder="Email"  />
+                     <input type="email" required placeholder="Email" onChange={(e)=>{setemail(e.target.value)}} />
 
                  </div>
                  <div>
                       <span className="icons"><EyeOutlined /></span>
-                     <input type="password" required placeholder="Password" />
+                     <input type="password" required placeholder="Password"onChange={(e)=>{setpassword(e.target.value)}} />
                      
                  </div>
                  <div className="btn-su">
                  {/* <Button variant="outline-success" >Success</Button> */}
-                    <button>
+                    <button onClick={Createuser}>
                          <span style={{fontWeight:"700",color:"#fff"}}>
                          Sign Up
 

@@ -19,10 +19,10 @@ function Router() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* <Route path={"/"} element={isLogin ? <Home /> : <Signup />} /> */}
                 <Route path="/" element={<Usercredentials />} />
-                {/* <Route path={"/login"} element={isLogin ? <Home /> : <Login />} />
-                <Route path={"/home"} element={isLogin ? <Home /> : <Login />} /> */}
+
+                
+                {/* <Route path={"/home"} element={isLogin ? <Home /> : <Login />} />  */}
             </Routes>
         </BrowserRouter>
     );
