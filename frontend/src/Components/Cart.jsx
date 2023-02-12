@@ -36,66 +36,39 @@ function Cart() {
 
     return (
         <div className="cartmain">
-            {/* {data && data.map((value, i) => {
-                <div className="eachproduct">
-                    <div>
-                        <img src={require("../assests/images/item4.jpg")} alt="" width={50} height={60} style={{ borderRadius: 7 }} />
-                    </div>
-                    <div>
-                        <div className='cartpriceheader'>
-                            <div>
-                                <h4>
-                                    Meat
-                                </h4>
+            {data && data.map((value, i) => {
+                return (
+                    <div className="eachproduct" key={i}>
+                        <div>
+                            <img src={value.productimage} alt="" width={50} height={60} style={{ borderRadius: 7 }} />
+                        </div>
+                        <div>
+                            <div className='cartpriceheader'>
+                                <div>
+                                    <h4>
+                                        {value.itemname}
+                                    </h4>
+                                </div>
+                                <div>
+                                    {value.unitprice} RS
+                                </div>
                             </div>
                             <div>
-                                850 RS
+                                <p>
+                                    {value.description}
+                                </p>
                             </div>
                         </div>
                         <div>
-                            <p>
-                                product discription achi hy
-                            </p>
+                            <button className='addtocart'>
+                                <span>
+                                    <PlusOutlined style={{ fontSize: 20, color: "#fff", fontWeight: 700, marginTop: -5 }} />
+                                </span>
+                            </button>
                         </div>
                     </div>
-                    <div>
-                        <button className='addtocart'>
-                            <span>
-                                <PlusOutlined style={{ fontSize: 20, color: "#fff", fontWeight: 700, marginTop: -5 }} />
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            })} */}
-            <div className="eachproduct">
-                <div>
-                    <img src={require("../assests/images/item4.jpg")} alt="" width={50} height={60} style={{ borderRadius: 7 }} />
-                </div>
-                <div>
-                    <div className='cartpriceheader'>
-                        <div>
-                            <h4>
-                                Meat
-                            </h4>
-                        </div>
-                        <div>
-                            850 RS
-                        </div>
-                    </div>
-                    <div>
-                        <p>
-                            product discription achi hy
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <button className='addtocart'>
-                        <span>
-                            <PlusOutlined style={{ fontSize: 20, color: "#fff", fontWeight: 700, marginTop: -5 }} />
-                        </span>
-                    </button>
-                </div>
-            </div>
+                )
+            })}
         </div>
     );
 }

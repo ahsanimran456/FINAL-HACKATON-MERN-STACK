@@ -2,7 +2,8 @@ import React from 'react'
 import './userprofile.css'
 import Cart from '../../Components/Cart'
 import Footer from '../../Components/Footer'
-import { useState,useEffect } from 'react'
+import Footeruser from '../../Components/Footeruser'
+import { useState, useEffect } from 'react'
 import {
     ShoppingCartOutlined,
     SearchOutlined
@@ -19,9 +20,10 @@ import {
     updateDoc,
     deleteField,
     query, where,
-    orderBy,db
+    orderBy, db
 } from "../../FirebaseConfig/Firebase.js";
 function Userprofile() {
+
 
     return (
         <div className="main-userhome">
@@ -62,7 +64,7 @@ function Userprofile() {
                 <Cart />
             </div>
             <div className='footabsolute'>
-                < Footer />
+                < Footeruser />
             </div>
 
         </div>

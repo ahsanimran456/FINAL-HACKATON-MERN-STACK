@@ -20,7 +20,9 @@ import {
     orderBy,
     signOut
 } from '../FirebaseConfig/Firebase.js'
-function Footer() {
+function Footeruser() {
+
+    
     const logout = () => {
         signOut(auth).then(() => {
             navigate('/')
@@ -29,11 +31,12 @@ function Footer() {
         });
     }
     const navigate = useNavigate()
+
     const gohome = () => {
-        navigate("/admin")
+        // navigate("/admin")
     }
     const addproduct = () => {
-        navigate("/admin/addproduct")
+        // navigate("/admin/addproduct")
     }
     return (
         <div className="footer">
@@ -70,3 +73,5 @@ function Footer() {
         </div>
     );
 }
+
+export default Footeruser
