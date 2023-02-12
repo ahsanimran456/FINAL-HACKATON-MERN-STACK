@@ -130,19 +130,9 @@ function UserCredentials() {
                     </h6>
                 </div>
                 <div className="body">
-                    <div>
-                        <span className="icons"><UserAddOutlined /></span>
-                        <input type="text" required placeholder="Full Name" /> 
-                    </div>
-                    <div>
-                        <span className="icons"><PhoneOutlined /></span>
-                        <input type="number" required placeholder="Number" />
-
-                    </div>
-                    <div>
+                     <div>
                         <span className="icons"><MailOutlined /></span>
                         <input type="email" required placeholder="Email"  />
-
                     </div>
                     <div>
                          <span className="icons"><EyeOutlined /></span>
@@ -152,7 +142,8 @@ function UserCredentials() {
                     <div className="btn-su">
                         <button>
                             <span style={{fontWeight:"700",color:"#fff"}}>
-                             Success
+                             Sign In
+
                             </span>
                         </button>
                     </div>
@@ -196,7 +187,8 @@ function UserCredentials() {
                  {/* <Button variant="outline-success" >Success</Button> */}
                     <button>
                          <span style={{fontWeight:"700",color:"#fff"}}>
-                              signup
+                         Sign Up
+
                         </span>
                      </button>
                  </div>
