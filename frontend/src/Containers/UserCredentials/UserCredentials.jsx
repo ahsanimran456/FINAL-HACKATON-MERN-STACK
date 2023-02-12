@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import './Userscreen.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,7 @@ import {UserAddOutlined ,
 //     doc, setDoc, db,
 //     auth
 // } from '../../FirebaseConfig/Firebase.js'
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword ,onAuthStateChanged} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
@@ -58,43 +58,25 @@ function UserCredentials() {
 
     const navigate = useNavigate()
 
+     useEffect(() => {
+        const auth = getAuth()
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("user", user);
+                console.log("email", user.email);
+                if (user.email == "admin@gmail.com") {
+                     navigate('/admin')   
+                }else{
+                    navigate('/user')   
 
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
+                }
+               
+            }
+        });
+    }, [])
 
-    const Loginuser = (values) => {
 
-        // // console.log('Success:', values);
-        // setloader(true)
-        // axios.post(`http://localhost:50552/login`, {
-        //     email: values.Email,
-        //     password: values.password,
-        //     // fullname: values.Email,
-        //     // phone: phonenumber,
-        // }, {
-        //     withCredentials: true
-        // })
-        //     .then((res) => {
-        //         console.log("res====>", res)
-        //         // console.log("res====>", res.data.Token)
-        //         if (res.data.message == "login successfully") {
-        //             toast.success("SignIn Successfully !")
-        //             console.log("token", res.data.Token)
-        //             localStorage.setItem("Token", res.data.Token)
-        //             window.location.reload();
-        //             values.Email = ""
-        //             values.password = ''
-        //         }
-        //         else if (res.data.message == "User not found") {
-        //             toast.error("User not found ")
-        //         }
-        //         setloader(false)
-
-        //     })
-        //     .catch((err) => {
-        //         setloader(false)
-        //     })
+    const Loginuser = () => { 
     if((emailtest.test(email))&&(passwordtest.test(password))){
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -103,10 +85,10 @@ function UserCredentials() {
          if(user.email == "admin@gmail.com") {
             navigate('/admin')
         }else{
-            navigate('/home')
+            navigate('/user')
         }
          
-          console.log("login user .....", user)
+        //   console.log("login user .....", user)
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -114,70 +96,20 @@ function UserCredentials() {
           console.log("login error", errorMessage)
           toast.error("Some thing went wrong!")
         });
-    }else{
+    }
+    else{
         toast.error("Please fill required input fileds")
     }
+
     }
 
 
-    const Createuser = (values) => {
-        // setloader(true)
-        // const picture = document.getElementById("imgae")
-        // // const url = URL.createObjectURL(picture.files[0])
-        // // setimage(url)
-        // if (values.password === values.ConfirmPass) {
-        //     const userdetails = {
-        //         fullname: values.UserName.trim(),
-        //         email: values.Email.trim(),
-        //         password: values.password.trim()
-        //         // phone: phonenumber,
-        //     }
-
-        //     let formData = new FormData();
-        //     formData.append("UserProfile", picture.files[0]);
-        //     formData.append("myDetails",
-        //         JSON.stringify(userdetails));
-        //     axios({
-        //         method: 'post',
-        //         url: "http://localhost:50552/signup",
-        //         data: formData,
-        //         headers: { 'Content-Type': 'multipart/form-data' },
-        //         withCredentials: true
-        //     })
-        //         .then(res => {
-        //             console.log('upload Success', res);
-        //             if (res.data.message == "Added User Successfully") {
-        //                 toast.success("SignIn Successfully !")
-        //                 localStorage.setItem("Token", res.data.Token)
-        //                 window.location.reload();
-        //                 values.UserName = ""
-        //                 values.Email = ""
-        //                 values.password = ''
-        //             }
-        //             else if (res.data.message == 'Email is already in use') {
-        //                 toast.warn(`Email is already in use`)
-        //             } else if (res.data.Message == 'Required parameter is missing') {
-        //                 toast.error(`Required parameter in missing`)
-        //             }
-        //             setloader(false)
-        //         })
-        //         .catch(err => {
-        //             console.log(err);
-        //             toast.error("Something went wrong")
-        //             setloader(false)
-
-        //         })
-        // } else {
-        //     toast.warn("confirm password doesn't match")
-
-        // }
-        
+    const Createuser = () => {
     console.log(username,email,password,phonenumber)
     if((nametest.test(username)) && (emailtest.test(email)) && (passwordtest.test(password))&&(phonetest.test(phonenumber))){
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
-        // Signed in 
-        
+        // Signed up  
         const user = userCredential.user;
         await setDoc(doc(db, "users", user.uid), {
           name: username,
@@ -188,6 +120,11 @@ function UserCredentials() {
         }) 
         toast.success("Sign Up Successfully !")
         console.log("signup===>", user)
+        if(user.email == "admin@gmail.com") {
+            navigate('/admin')
+        }else{
+            navigate('/user')
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
