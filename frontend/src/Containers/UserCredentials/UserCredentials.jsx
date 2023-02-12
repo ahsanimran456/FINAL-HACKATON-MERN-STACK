@@ -23,7 +23,7 @@ import {
     doc,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-
+import { Bars } from 'react-loader-spinner'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAnnCNWsHUJFze854dWrFbqZE6hvh0pY7s",
@@ -55,7 +55,7 @@ function UserCredentials() {
     const [email, setemail] = useState();
     const [password, setpassword] = useState();
     const [phonenumber, setphonenumber] = useState();
-
+    const [loaders, setloaders] = useState(false);
     const navigate = useNavigate()
 
      useEffect(() => {
@@ -78,6 +78,7 @@ function UserCredentials() {
 
     const Loginuser = () => { 
     if((emailtest.test(email))&&(passwordtest.test(password))){
+        setloaders(true)
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
          toast.success("Sign In Successfully !")
@@ -87,14 +88,17 @@ function UserCredentials() {
         }else{
             navigate('/user')
         }
+        setloaders(false)
          
         //   console.log("login user .....", user)
         })
         .catch((error) => {
+            setloaders(true)
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log("login error", errorMessage)
-          toast.error("Some thing went wrong!")
+          toast.error(`${errorMessage}`)
+          setloaders(false)
         });
     }
     else{
@@ -129,7 +133,7 @@ function UserCredentials() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        toast.error("Something went Wrong!")
+        toast.error(`${errorMessage}`)
         console.log("signup error===>", errorMessage)
       });
   }else{
@@ -170,12 +174,23 @@ function UserCredentials() {
                         
                     </div>
                     <div className="btn-su">
-                        <button onClick={Loginuser}>
+                        {loaders ? <Bars
+                            height="50"
+                            width="50"
+                            color="#4fa94d"
+                            ariaLabel="bars-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                             />:
+
+                             <button onClick={Loginuser}>
                             <span style={{fontWeight:"700",color:"#fff"}}>
                              Sign In
-
                             </span>
-                        </button>
+                            </button>
+                             }
+                        
                     </div>
                     <div className="">
                             <p style={{color:"#024F9D",fontWeight:600,cursor:"pointer"}} onClick={toggle}>
@@ -214,11 +229,9 @@ function UserCredentials() {
                      
                  </div>
                  <div className="btn-su">
-                 {/* <Button variant="outline-success" >Success</Button> */}
                     <button onClick={Createuser}>
                          <span style={{fontWeight:"700",color:"#fff"}}>
                          Sign Up
-
                         </span>
                      </button>
                  </div>
